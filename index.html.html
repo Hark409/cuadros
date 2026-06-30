@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cuadros de Arte - Inicio de sesión</title>
+    <style>
+      :root {
+        --bg: #f4ebe3;
+        --text: #2d241e;
+        --surface: #ffffff;
+        --surface-soft: #f7f0e8;
+        --primary: #9b5f43;
+        --secondary: #6b8f6c;
+        --muted: #7a6b5d;
+        --shadow: 0 20px 50px rgba(45, 36, 30, 0.12);
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: "Inter", "Segoe UI", sans-serif;
+        background: radial-gradient(circle at top left, #fff6ec 0%, #f4ebe3 45%, #e6d8c8 100%);
+        color: var(--text);
+      }
+      .wrap {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        padding: 22px 0;
+      }
+      .brand {
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+      }
+      nav a {
+        margin-left: 20px;
+        text-decoration: none;
+        color: var(--text);
+        font-weight: 600;
+      }
+      .hero {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 26px;
+        align-items: center;
+      }
+      .hero-card,
+      .login-card {
+        background: var(--surface);
+        border-radius: 28px;
+        padding: 32px;
+        box-shadow: var(--shadow);
+      }
+      .hero h1 {
+        font-size: clamp(2.4rem, 4vw, 3.4rem);
+        margin: 0 0 18px;
+        line-height: 1.05;
+      }
+      .hero p {
+        max-width: 520px;
+        font-size: 1.05rem;
+        line-height: 1.75;
+        color: var(--muted);
+      }
+      .hero .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 26px;
+        padding: 14px 24px;
+        border-radius: 999px;
+        text-decoration: none;
+        background: linear-gradient(135deg, var(--primary), #bf8464);
+        color: white;
+        font-weight: 700;
+        transition: transform 0.2s ease;
+      }
+      .hero .btn:hover { transform: translateY(-2px); }
+      .feature-list {
+        display: grid;
+        gap: 14px;
+        margin-top: 30px;
+      }
+      .feature-item {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+      }
+      .feature-item span {
+        width: 36px;
+        height: 36px;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        background: #f5e2d8;
+        color: var(--primary);
+        font-weight: 800;
+      }
+      .feature-item div {
+        line-height: 1.6;
+      }
+      .login-card {
+        position: sticky;
+        top: 24px;
+      }
+      .login-card h2 {
+        margin-top: 0;
+      }
+      .tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 20px 0 24px;
+      }
+      .tab {
+        border: 1px solid #ebdfd5;
+        background: var(--surface-soft);
+        border-radius: 16px;
+        padding: 14px;
+        text-align: center;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .tab.active {
+        border-color: var(--primary);
+        background: linear-gradient(135deg, #f7ede7, #f0e3db);
+        color: var(--primary);
+      }
+      form {
+        display: grid;
+        gap: 16px;
+      }
+      .field {
+        display: grid;
+        gap: 8px;
+      }
+      .field label {
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+      .field input {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 14px;
+        border: 1px solid #ded2c7;
+        background: #fff;
+        font-size: 1rem;
+      }
+      .field input:focus {
+        outline: 2px solid rgba(155, 95, 67, 0.22);
+        border-color: rgba(155, 95, 67, 0.35);
+      }
+      .submit {
+        border: none;
+        border-radius: 14px;
+        padding: 14px 18px;
+        background: var(--primary);
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .submit:hover { opacity: 0.97; }
+      .note {
+        font-size: 0.92rem;
+        color: var(--muted);
+      }
+      .catalog {
+        margin-top: 42px;
+      }
+      .section-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 20px;
+      }
+      .section-title h2 { margin: 0; }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+      }
+      .card {
+        background: var(--surface);
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+      .painting {
+        height: 180px;
+      }
+      .painting.one { background: linear-gradient(135deg, #fbc385, #bd6d4f, #3d5447); }
+      .painting.two { background: linear-gradient(135deg, #c9d9b0, #708a61, #47554b); }
+      .painting.three { background: linear-gradient(135deg, #f5c7d1, #b4635f, #575046); }
+      .card-body {
+        padding: 22px;
+      }
+      .card-body h3 { margin: 0 0 10px; }
+      .card-body p { margin: 0 0 14px; color: var(--muted); line-height: 1.65; }
+      .price {
+        color: var(--primary);
+        font-weight: 700;
+      }
+      @media (max-width: 960px) {
+        .hero { grid-template-columns: 1fr; }
+        .login-card { position: static; }
+        .cards { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 640px) {
+        .tabs { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="brand">Galería Cuadros</div>
+        <nav>
+          <a href="#catalogo">Colección</a>
+          <a href="#acceso">Iniciar sesión</a>
+          <a href="#registro">Registrarse</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="hero-card">
+            <h1>Cuadros elegantes para tu hogar y tu tienda online</h1>
+            <p>Convierte tus paredes en un espacio con estilo. Compra cuadros exclusivos, regístrate para ofertas y accede a tu cuenta para gestionar pedidos.</p>
+            <a class="btn" href="#acceso">Acceder ahora</a>
+            <div class="feature-list">
+              <div class="feature-item">
+                <span>1</span>
+                <div>
+                  <strong>Diseño profesional</strong><br />Piezas hechas para interiores modernos.
+                </div>
+              </div>
+              <div class="feature-item">
+                <span>2</span>
+                <div>
+                  <strong>Cuenta segura</strong><br />Regístrate y guarda tus pedidos favoritos.
+                </div>
+              </div>
+              <div class="feature-item">
+                <span>3</span>
+                <div>
+                  <strong>Envío confiable</strong><br />Embalaje premium para cada cuadro.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="login-card">
+            <h2>Área de cliente</h2>
+            <div class="tabs">
+              <button class="tab active" data-target="login">Iniciar sesión</button>
+              <button class="tab" data-target="register">Registrarse</button>
+            </div>
+            <form id="login" class="auth-form">
+              <div class="field">
+                <label for="login-email">Correo electrónico</label>
+                <input type="email" id="login-email" placeholder="tucorreo@ejemplo.com" />
+              </div>
+              <div class="field">
+                <label for="login-password">Contraseña</label>
+                <input type="password" id="login-password" placeholder="********" />
+              </div>
+              <button type="button" class="submit">Iniciar sesión</button>
+              <p class="note">¿Aún no tienes cuenta? Haz clic en Registrarse.</p>
+            </form>
+            <form id="register" class="auth-form" style="display:none;">
+              <div class="field">
+                <label for="register-name">Nombre completo</label>
+                <input type="text" id="register-name" placeholder="Tu nombre" />
+              </div>
+              <div class="field">
+                <label for="register-email">Correo electrónico</label>
+                <input type="email" id="register-email" placeholder="tucorreo@ejemplo.com" />
+              </div>
+              <div class="field">
+                <label for="register-password">Contraseña</label>
+                <input type="password" id="register-password" placeholder="Crea una contraseña" />
+              </div>
+              <button type="button" class="submit">Registrarse</button>
+              <p class="note">Regístrate para recibir novedades y descuentos exclusivos.</p>
+            </form>
+          </aside>
+        </section>
+
+        <section id="catalogo" class="catalog">
+          <div class="section-title">
+            <h2>Más vendidos</h2>
+            <span>Tu cuadro favorito estará listo para envío.</span>
+          </div>
+          <div class="cards">
+            <article class="card">
+              <div class="painting one"></div>
+              <div class="card-body">
+                <h3>Atardecer Terracota</h3>
+                <p>Una obra cálida con detalles terracota para un salón acogedor.</p>
+                <div class="price">$89 USD</div>
+              </div>
+            </article>
+            <article class="card">
+              <div class="painting two"></div>
+              <div class="card-body">
+                <h3>Verde Naturaleza</h3>
+                <p>Colores suaves ideales para espacios relajantes y modernos.</p>
+                <div class="price">$95 USD</div>
+              </div>
+            </article>
+            <article class="card">
+              <div class="painting three"></div>
+              <div class="card-body">
+                <h3>Rosa Minimalista</h3>
+                <p>Perfecto para dormitorios y ambientes con estilo delicado.</p>
+                <div class="price">$84 USD</div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const tabs = document.querySelectorAll('.tab');
+      const forms = document.querySelectorAll('.auth-form');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(button => button.classList.remove('active'));
+          tab.classList.add('active');
+          const target = tab.dataset.target;
+          forms.forEach(form => {
+            form.style.display = form.id === target ? 'grid' : 'none';
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
