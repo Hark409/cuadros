@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galería Cuadros | Iniciar sesión</title>
+    <style>
+      :root {
+        --bg: #f6efe6;
+        --text: #2e231c;
+        --surface: #ffffff;
+        --surface-soft: #f4ebe3;
+        --accent: #9e5c42;
+        --accent-strong: #7a3f2d;
+        --border: #e3d3c5;
+        --shadow: 0 24px 60px rgba(46, 34, 27, 0.12);
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Inter", "Segoe UI", sans-serif;
+        background: linear-gradient(180deg, #fbf5ef 0%, #f0e1d0 100%);
+        color: var(--text);
+      }
+      .page {
+        width: min(1140px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 32px 0 48px;
+      }
+      .hero {
+        display: grid;
+        gap: 26px;
+        margin-bottom: 36px;
+      }
+      .hero h1 {
+        margin: 0;
+        font-size: clamp(2.75rem, 4vw, 4.4rem);
+        line-height: 1.02;
+      }
+      .hero p {
+        margin: 18px 0 0;
+        font-size: 1.15rem;
+        line-height: 1.9;
+        color: #5d4b42;
+        max-width: 760px;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+      .auth-panel {
+        display: grid;
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      .auth-intro,
+      .auth-form-container {
+        padding: 28px;
+      }
+      .auth-intro {
+        border-right: none;
+      }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 24px;
+        border: none;
+        border-radius: 999px;
+        background: var(--accent);
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .button.secondary {
+        background: #f2ddd0;
+        color: var(--accent-strong);
+      }
+      .auth-panel,
+      .dashboard-panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 32px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .auth-panel {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 380px;
+      }
+      .auth-intro,
+      .auth-form-container,
+      .dashboard-panel {
+        padding: 34px;
+      }
+      .auth-intro {
+        background: linear-gradient(180deg, rgba(158, 92, 66, 0.12), rgba(255, 255, 255, 0.95));
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+        border-right: 1px solid rgba(227, 211, 197, 0.88);
+      }
+      .auth-intro h2 {
+        margin: 0;
+        font-size: 2.35rem;
+      }
+      .auth-intro p {
+        margin: 0;
+        line-height: 1.9;
+        color: #5d4539;
+      }
+      .tabs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 28px;
+      }
+      .tab {
+        padding: 14px 18px;
+        border-radius: 18px;
+        border: 1px solid transparent;
+        text-align: center;
+        cursor: pointer;
+        font-weight: 700;
+        background: #f7f1ec;
+        color: #6e5347;
+        transition: all 0.25s ease;
+      }
+      .tab.active {
+        background: white;
+        border-color: var(--accent);
+        color: var(--accent-strong);
+        box-shadow: 0 14px 30px rgba(158, 92, 66, 0.12);
+      }
+      form {
+        display: grid;
+        gap: 16px;
+      }
+      label {
+        font-size: 0.96rem;
+        color: #6d5447;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 15px 18px;
+        border: 1px solid #d9cbc0;
+        border-radius: 16px;
+        background: #fdf6f0;
+        font-size: 1rem;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: rgba(158, 92, 66, 0.42);
+        box-shadow: 0 0 0 4px rgba(158, 92, 66, 0.1);
+      }
+      .form-note {
+        margin: 0;
+        color: #7c6960;
+        font-size: 0.95rem;
+      }
+      .hidden { display: none; }
+      .dashboard-panel {
+        display: none;
+      }
+      .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 24px;
+      }
+      .dashboard-header h2 {
+        margin: 0;
+      }
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+      .metric-card,
+      .sales-box,
+      .orders-box {
+        background: var(--surface-soft);
+        border-radius: 24px;
+        padding: 22px;
+        border: 1px solid #e5d6c9;
+      }
+      .metric-card strong {
+        display: block;
+        font-size: 1.35rem;
+        margin-bottom: 9px;
+      }
+      .section-title {
+        margin: 0 0 18px;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #5f4f46;
+      }
+      .sales-form {
+        display: grid;
+        gap: 16px;
+      }
+      .sales-form button {
+        margin-top: 4px;
+      }
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 20px;
+      }
+      .summary-item {
+        background: white;
+        border-radius: 18px;
+        padding: 18px;
+        border: 1px solid #e3d4c5;
+      }
+      .summary-item strong {
+        display: block;
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+      }
+      .chart-card {
+        background: white;
+        border-radius: 24px;
+        padding: 18px;
+        border: 1px solid #e4d4c6;
+      }
+      .chart-card canvas {
+        width: 100%;
+        height: 280px;
+      }
+      .orders-box table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 12px 10px;
+      }
+      th {
+        color: #7c675c;
+        font-size: 0.95rem;
+        border-bottom: 1px solid #e8ddd0;
+      }
+      tr td {
+        border-bottom: 1px solid #f0e2d7;
+      }
+      .empty-row {
+        color: #8c7769;
+      }
+      @media (max-width: 980px) {
+        .hero { grid-template-columns: 1fr; }
+        .auth-panel { grid-template-columns: 1fr; }
+        .dashboard-grid { grid-template-columns: 1fr; }
+        .summary-grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <section class="hero">
+        <div>
+          <h1>Accede primero y luego registra ventas.</h1>
+          <p>La plataforma comienza con un inicio de sesión o registro profesional. Una vez dentro, podrás ver el panel de ventas, el historial y el gráfico de rendimiento.</p>
+          <div class="hero-actions">
+            <button class="button" onclick="showDashboard()">Ingresar</button>
+          </div>
+        </div>
+      </section>
+      <section class="auth-panel">
+        <div class="auth-intro">
+          <h2>Bienvenido</h2>
+          <p>Inicia sesión si ya tienes cuenta, o regístrate para comenzar a gestionar tus cuadros y ventas.</p>
+        </div>
+        <div class="auth-form-container">
+          <div class="tabs">
+            <div class="tab active" data-tab="login" onclick="switchTab(event)">Iniciar sesión</div>
+            <div class="tab" data-tab="register" onclick="switchTab(event)">Registrarse</div>
+          </div>
+          <form id="login-form">
+            <label for="login-email">Correo electrónico</label>
+            <input id="login-email" type="email" placeholder="tucorreo@ejemplo.com" />
+            <label for="login-password">Contraseña</label>
+            <input id="login-password" type="password" placeholder="********" />
+            <button type="button" class="button" onclick="handleLogin()">Entrar</button>
+            <p class="form-note">Accede a tu cuenta para ver tu panel de ventas.</p>
+          </form>
+          <form id="register-form" class="hidden">
+            <label for="register-name">Nombre completo</label>
+            <input id="register-name" type="text" placeholder="Tu nombre" />
+            <label for="register-email">Correo electrónico</label>
+            <input id="register-email" type="email" placeholder="tucorreo@ejemplo.com" />
+            <label for="register-password">Contraseña</label>
+            <input id="register-password" type="password" placeholder="Crea una contraseña" />
+            <button type="button" class="button" onclick="handleRegister()">Crear cuenta</button>
+            <p class="form-note">Crea tu cuenta y comienza a registrar ventas al instante.</p>
+          </form>
+        </div>
+      </section>
+
+      <section class="dashboard-panel" id="dashboard">
+        <div class="dashboard-header">
+          <div>
+            <h2>Panel de ventas</h2>
+            <p style="margin: 8px 0 0; color: #6b5649;">Gestiona ventas, visualiza ingresos y mantén el control de tus pedidos.</p>
+          </div>
+          <button class="button secondary" onclick="logout()">Cerrar sesión</button>
+        </div>
+        <div class="dashboard-grid">
+          <div class="metric-card">
+            <span class="section-title">Ventas totales</span>
+            <strong id="total-sales">$0.00</strong>
+          </div>
+          <div class="metric-card">
+            <span class="section-title">Pedidos registrados</span>
+            <strong id="orders-count">0</strong>
+          </div>
+          <div class="metric-card">
+            <span class="section-title">Producto más vendido</span>
+            <strong id="best-product">-</strong>
+          </div>
+        </div>
+        <div class="summary-grid">
+          <div class="summary-item">
+            <strong>Ventas del mes</strong>
+            <p id="monthly-total">$0.00</p>
+          </div>
+          <div class="summary-item">
+            <strong>Mayor ingreso</strong>
+            <p id="best-day">-</p>
+          </div>
+        </div>
+        <div class="chart-card" id="grafico">
+          <span class="section-title">Gráfico de ventas</span>
+          <canvas id="sales-chart"></canvas>
+        </div>
+        <div class="sales-box" id="ventas">
+          <span class="section-title">Registrar nueva venta</span>
+          <form class="sales-form" onsubmit="event.preventDefault(); addSale();">
+            <label for="sale-client">Cliente</label>
+            <input id="sale-client" type="text" placeholder="Nombre del cliente" required />
+            <label for="sale-product">Producto</label>
+            <select id="sale-product">
+              <option>Atardecer Terracota</option>
+              <option>Verde Naturaleza</option>
+              <option>Rosa Minimalista</option>
+            </select>
+            <label for="sale-quantity">Cantidad</label>
+            <input id="sale-quantity" type="number" min="1" value="1" required />
+            <label for="sale-price">Precio unitario</label>
+            <input id="sale-price" type="number" min="1" value="89" required />
+            <button type="submit" class="button">Guardar venta</button>
+          </form>
+        </div>
+        <div class="orders-box">
+          <span class="section-title">Historial de ventas</span>
+          <table>
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="sales-table-body">
+              <tr><td colspan="5" class="empty-row">Aún no has registrado ventas.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const tabs = document.querySelectorAll('.tab');
+      const loginForm = document.getElementById('login-form');
+      const registerForm = document.getElementById('register-form');
+      const dashboard = document.getElementById('dashboard');
+      const salesChart = document.getElementById('sales-chart');
+      const salesTableBody = document.getElementById('sales-table-body');
+      const totalSalesLabel = document.getElementById('total-sales');
+      const ordersCountLabel = document.getElementById('orders-count');
+      const monthlyTotalLabel = document.getElementById('monthly-total');
+      const bestProductLabel = document.getElementById('best-product');
+      const bestDayLabel = document.getElementById('best-day');
+
+      function switchTab(event) {
+        tabs.forEach(tab => tab.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        const target = event.currentTarget.dataset.tab;
+        if (target === 'login') {
+          loginForm.classList.remove('hidden');
+          registerForm.classList.add('hidden');
+        } else {
+          loginForm.classList.add('hidden');
+          registerForm.classList.remove('hidden');
+        }
+      }
+
+      function showDashboard() {
+        dashboard.style.display = 'block';
+        document.getElementById('login-form').scrollIntoView({ behavior: 'smooth' });
+      }
+
+      function handleLogin() {
+        const email = document.getElementById('login-email').value.trim();
+        const pwd = document.getElementById('login-password').value.trim();
+        if (!email || !pwd) {
+          alert('Completa el correo y la contraseña.');
+          return;
+        }
+        loginSuccess();
+      }
+
+      function handleRegister() {
+        const name = document.getElementById('register-name').value.trim();
+        const email = document.getElementById('register-email').value.trim();
+        const pwd = document.getElementById('register-password').value.trim();
+        if (!name || !email || !pwd) {
+          alert('Completa todos los datos para registrarte.');
+          return;
+        }
+        alert('Cuenta creada correctamente. Ahora puedes iniciar sesión.');
+        switchToLogin();
+      }
+
+      function switchToLogin() {
+        tabs.forEach(tab => tab.dataset.tab === 'login' ? tab.classList.add('active') : tab.classList.remove('active'));
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+      }
+
+      function loginSuccess() {
+        dashboard.style.display = 'block';
+        updateSales();
+        document.querySelector('.dashboard-header').scrollIntoView({ behavior: 'smooth' });
+      }
+
+      function logout() {
+        dashboard.style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function getSales() {
+        const stored = localStorage.getItem('galeriaVentas');
+        return stored ? JSON.parse(stored) : [];
+      }
+
+      function saveSales(sales) {
+        localStorage.setItem('galeriaVentas', JSON.stringify(sales));
+      }
+
+      function addSale() {
+        const client = document.getElementById('sale-client').value.trim();
+        const product = document.getElementById('sale-product').value;
+        const quantity = parseInt(document.getElementById('sale-quantity').value, 10);
+        const price = parseFloat(document.getElementById('sale-price').value);
+        if (!client || quantity < 1 || price < 1) {
+          alert('Por favor ingresa datos válidos de la venta.');
+          return;
+        }
+        const sale = {
+          client,
+          product,
+          quantity,
+          price,
+          date: new Date().toISOString().slice(0, 10)
+        };
+        const sales = getSales();
+        sales.unshift(sale);
+        saveSales(sales);
+        document.getElementById('sale-client').value = '';
+        document.getElementById('sale-quantity').value = '1';
+        renderSalesTable(sales);
+        updateMetrics(sales);
+        drawChart(sales);
+      }
+
+      function renderSalesTable(sales) {
+        if (!sales.length) {
+          salesTableBody.innerHTML = '<tr><td colspan="5" class="empty-row">Aún no has registrado ventas.</td></tr>';
+          return;
+        }
+        salesTableBody.innerHTML = sales.map(sale => {
+          const total = (sale.price * sale.quantity).toFixed(2);
+          return `<tr><td>${sale.client}</td><td>${sale.product}</td><td>${sale.quantity}</td><td>$${total}</td><td>${sale.date}</td></tr>`;
+        }).join('');
+      }
+
+      function updateMetrics(sales) {
+        const total = sales.reduce((sum, sale) => sum + sale.price * sale.quantity, 0);
+        totalSalesLabel.textContent = `$${total.toFixed(2)}`;
+        ordersCountLabel.textContent = sales.length;
+        const month = new Date().toISOString().slice(0, 7);
+        const monthTotal = sales.filter(sale => sale.date.startsWith(month)).reduce((sum, sale) => sum + sale.price * sale.quantity, 0);
+        monthlyTotalLabel.textContent = `$${monthTotal.toFixed(2)}`;
+        const productCounts = sales.reduce((acc, sale) => {
+          acc[sale.product] = (acc[sale.product] || 0) + sale.quantity;
+          return acc;
+        }, {});
+        const bestProduct = Object.entries(productCounts).sort((a, b) => b[1] - a[1])[0];
+        bestProductLabel.textContent = bestProduct ? `${bestProduct[0]} (${bestProduct[1]})` : '-';
+        const bestDay = sales.reduce((acc, sale) => {
+          acc[sale.date] = (acc[sale.date] || 0) + sale.price * sale.quantity;
+          return acc;
+        }, {});
+        const bestDayEntry = Object.entries(bestDay).sort((a, b) => b[1] - a[1])[0];
+        bestDayLabel.textContent = bestDayEntry ? `${bestDayEntry[0]} - $${bestDayEntry[1].toFixed(2)}` : '-';
+      }
+
+      function drawChart(sales) {
+        const ctx = salesChart.getContext('2d');
+        const width = salesChart.clientWidth * window.devicePixelRatio;
+        const height = salesChart.clientHeight * window.devicePixelRatio;
+        salesChart.width = width;
+        salesChart.height = height;
+        ctx.clearRect(0, 0, width, height);
+        const grouped = sales.reduce((acc, sale) => {
+          const key = sale.date;
+          acc[key] = (acc[key] || 0) + sale.price * sale.quantity;
+          return acc;
+        }, {});
+        const labels = Object.keys(grouped).sort();
+        if (!labels.length) {
+          ctx.fillStyle = '#8c7d71';
+          ctx.font = `${16 * window.devicePixelRatio}px Inter`;
+          ctx.fillText('Registra una venta para ver el gráfico', 20 * window.devicePixelRatio, 50 * window.devicePixelRatio);
+          return;
+        }
+        const values = labels.map(label => grouped[label]);
+        const maxValue = Math.max(...values);
+        const padding = 56 * window.devicePixelRatio;
+        const chartWidth = width - padding * 1.5;
+        const chartHeight = height - padding * 1.2;
+        ctx.fillStyle = '#d8c4b4';
+        ctx.strokeStyle = '#d8c4b4';
+        ctx.lineWidth = 1 * window.devicePixelRatio;
+        for (let i = 0; i <= 4; i++) {
+          const y = padding + (chartHeight / 4) * i;
+          ctx.beginPath();
+          ctx.moveTo(padding, y);
+          ctx.lineTo(padding + chartWidth, y);
+          ctx.stroke();
+        }
+        ctx.fillStyle = '#7f4b33';
+        labels.forEach((label, index) => {
+          const x = padding + index * (chartWidth / labels.length) + (chartWidth / labels.length - 28 * window.devicePixelRatio) / 2;
+          const value = values[index];
+          const heightBar = maxValue ? (value / maxValue) * (chartHeight - 32 * window.devicePixelRatio) : 0;
+          const y = padding + chartHeight - heightBar;
+          ctx.fillRect(x, y, 28 * window.devicePixelRatio, heightBar);
+          ctx.fillStyle = '#4e352b';
+          ctx.font = `${12 * window.devicePixelRatio}px Inter`;
+          ctx.textAlign = 'center';
+          ctx.fillText(label, x + 14 * window.devicePixelRatio, padding + chartHeight + 24 * window.devicePixelRatio);
+          ctx.fillText(`$${value.toFixed(0)}`, x + 14 * window.devicePixelRatio, y - 8 * window.devicePixelRatio);
+          ctx.fillStyle = '#7f4b33';
+        });
+      }
+
+      function updateSales() {
+        const sales = getSales();
+        renderSalesTable(sales);
+        updateMetrics(sales);
+        drawChart(sales);
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        updateSales();
+      });
+    </script>
+  </body>
+</html>
