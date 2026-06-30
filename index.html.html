@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cuadros de Arte</title>
+    <style>
+      :root {
+        --bg: #f7efe8;
+        --text: #2f241d;
+        --accent: #a85c3b;
+        --accent-2: #5d6b4f;
+        --card: #fffaf4;
+        --shadow: 0 10px 30px rgba(47, 36, 29, 0.12);
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, var(--bg), #efe2d4);
+        color: var(--text);
+      }
+
+      .wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+
+      header {
+        background: linear-gradient(120deg, #2f241d, #6f4d3a);
+        color: white;
+        border-radius: 24px;
+        padding: 40px 30px;
+        box-shadow: var(--shadow);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 24px;
+        align-items: center;
+      }
+
+      .hero h1 {
+        font-size: 2.4rem;
+        margin: 0 0 12px;
+      }
+
+      .hero p {
+        font-size: 1.05rem;
+        line-height: 1.6;
+        opacity: 0.95;
+      }
+
+      .btn {
+        display: inline-block;
+        margin-top: 18px;
+        background: var(--accent);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: transform 0.2s ease;
+      }
+
+      .btn:hover { transform: translateY(-2px); }
+
+      .hero-card {
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.18);
+        border-radius: 20px;
+        padding: 20px;
+        backdrop-filter: blur(6px);
+      }
+
+      .art-preview {
+        height: 260px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #f6c06c, #d97045, #4f6b4a);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .art-preview::before,
+      .art-preview::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.35);
+      }
+
+      .art-preview::before {
+        width: 220px;
+        height: 220px;
+        left: -30px;
+        top: -20px;
+      }
+
+      .art-preview::after {
+        width: 160px;
+        height: 160px;
+        right: -20px;
+        bottom: -40px;
+      }
+
+      section { margin-top: 28px; }
+      .section-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: 18px;
+        padding: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .painting {
+        height: 180px;
+        border-radius: 14px;
+        margin-bottom: 12px;
+      }
+
+      .painting.one { background: linear-gradient(135deg, #f4d2a5, #b65c2f, #2f4b41); }
+      .painting.two { background: linear-gradient(135deg, #d9e3c0, #7a8d4f, #3c3f3b); }
+      .painting.three { background: linear-gradient(135deg, #f5c7bd, #b44f52, #5b4a41); }
+
+      .price {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      .about {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .info-box {
+        background: white;
+        padding: 20px;
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+      }
+
+      .cta {
+        text-align: center;
+        background: linear-gradient(120deg, #fff2e1, #f2d6ba);
+        padding: 26px;
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+      }
+
+      @media (max-width: 900px) {
+        .hero, .about, .cards { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="hero">
+          <div>
+            <h1>Cuadros que llenan de alma cada espacio</h1>
+            <p>Descubre piezas únicas con colores cálidos y elegantes, perfectas para decorar tu hogar, oficina o regalo especial.</p>
+            <a class="btn" href="#catalogo">Ver colección</a>
+          </div>
+          <div class="hero-card">
+            <div class="art-preview"></div>
+          </div>
+        </div>
+      </header>
+
+      <section id="catalogo">
+        <div class="section-title">
+          <h2>Más vendidos</h2>
+          <span>Envío rápido y embalaje seguro</span>
+        </div>
+        <div class="cards">
+          <div class="card">
+            <div class="painting one"></div>
+            <h3>Atardecer Terracota</h3>
+            <p>Una obra con tonos cálidos para salones y comedores.</p>
+            <div class="price">$89 USD</div>
+          </div>
+          <div class="card">
+            <div class="painting two"></div>
+            <h3>Verde Naturaleza</h3>
+            <p>Inspirada en paisajes suaves y una sensación de calma.</p>
+            <div class="price">$95 USD</div>
+          </div>
+          <div class="card">
+            <div class="painting three"></div>
+            <h3>Rosa Minimalista</h3>
+            <p>Ideal para dormitorios o ambientes modernos y delicados.</p>
+            <div class="price">$84 USD</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="about">
+        <div class="info-box">
+          <h3>Hecho con estilo</h3>
+          <p>Cada cuadro está pensado para combinar con muebles modernos, tonos neutros y espacios acogedores.</p>
+        </div>
+        <div class="info-box">
+          <h3>Personaliza tu elección</h3>
+          <p>Puedes pedir tamaños especiales, marcos en madera o colores que se adapten mejor a tu decoración.</p>
+        </div>
+      </section>
+
+      <section class="cta">
+        <h2>¿Listo para transformar tu pared?</h2>
+        <p>Elige tu favorito y haz tu pedido hoy mismo.</p>
+        <a class="btn" href="mailto:ventas@cuadros.com">Contactar</a>
+      </section>
+    </div>
+  </body>
+</html>
